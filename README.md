@@ -33,6 +33,10 @@ The original code by squix78 utilized the WiFiManager library by tzapu to set Wi
 
 *** Note:  In my haste to get these changes implemented, I only added a few time-zone city selections for the US timezones (including my own).  (Yes, go ahead and hit me up on my lack of consideration for all of you international contributors!)  It is simple to extend the code to add additional cities / DST rules by editing the function setDSTRules if you need to do so.
 
+### On-Demand Portal
+
+This version utilizes a small library that allows bringing up the configuration portal on-demand by double-pressing the reset button on the WeMos.  This double-press must occur within 10 seconds (which is configurable and changeable in the code).  The library is by datacute (https://github.com/datacute/DoubleResetDetector).
+
 ## Thingspeak / DHT22 Display
 
 Since I don't currently use a local DHT22 attached to my Weather Station, nor upload readings to a Thingspeak channel, I've commented-out these code elements.  Feel free to un-comment if you're using them.
