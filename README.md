@@ -45,7 +45,9 @@ Along the way I fixed a number of display and other bugs...for instance, several
 
 It might just be my setup, but occasionally the display on my TFT goes all-white.  I don't know if this is a cable issue, or perhaps the power requirements for the backlight are exceeding the rating of the output pins powering it from the WeMos.  Or...???
 
-I also spent a considerable amount of time trying to implement a web-page pulldown for selecting the time-zone city, which never worked as I'd like.  (I could get the pulldown displayed, but couldn't get rid of the original input fields on the form.  This may be a restriction in the current WiFiManager routine, or maybe more likely a restriction with my limited HTML coding experience!
+I also spent a considerable amount of time trying to implement a web-page pulldown for selecting the time-zone city, which never worked as I'd like.  (I could get the pulldown displayed, but couldn't get rid of the original input fields on the form.  This may be a restriction in the current WiFiManager routine, or maybe more likely a restriction with my limited HTML coding experience!)
+
+I've noticed one additional remaining bug which I've not yet addressed.  It seems that if the moon-rise/set time is 0:00, only the ":" is displayed and nothing else.  The best place to correct this is probably in the Weather Station library itself instead of my code.
 
 
 
