@@ -55,27 +55,6 @@ char FormattedHumidity[10];
 
 const char* configPortalPassword = "portal-pass";
 
-// -----------------------------------
-// Example Locales (uncomment only 1)
-//#define Zurich
-//#define Boston
-//#define Louisville
-//#define Sydney
-//------------------------------------
-
-//#ifdef Zurich
-//DST rules for Central European Time Zone
-//#define UTC_OFFSET +1
-//struct dstRule StartRule = {"CEST", Last, Sun, Mar, 2, 3600}; // Central European Summer Time = UTC/GMT +2 hours
-//struct dstRule EndRule = {"CET", Last, Sun, Oct, 2, 0};       // Central European Time = UTC/GMT +1 hour
-
-// Uncomment for 24 Hour style clock
-//#define STYLE_24HR
-
-//#define NTP_SERVERS "0.ch.pool.ntp.org", "1.ch.pool.ntp.org", "2.ch.pool.ntp.org"
-
-//#endif
-
 // *** The following are default values for the configuration...
 //      DST rules for US Eastern Time Zone (New York, Boston, Louisville)
 int UTC_OFFSET = -5;
@@ -89,31 +68,11 @@ dstRule EndRule = {"EST", First, Sun, Nov, 1, 0};       // Eastern Standard time
 
 // Wunderground Settings (default)
 boolean IS_METRIC = false;
-char WUNDERGROUND_API_KEY[18] = "3d577bc1ba5996cb";
+char WUNDERGROUND_API_KEY[18] = "<WU API key>";
 char WUNDERGROUND_LANGUAGE[4] = "EN";
 char WUNDERGROUND_COUNTRY[4] = "US";
-char WUNDERGROUND_CITY[20] = "KY/40223";
-//const String WUNDERGROUND_CITY = "pws:KKYLOUIS57";    // Meadow Vale PWS
+char WUNDERGROUND_CITY[20] = "<WU city>";
 char TZ_CITY[30] = "Louisville";
-
-//#ifdef Sydney
-//DST Rules for Australia Eastern Time Zone (Sydney)
-//#define UTC_OFFSET +10
-//struct dstRule StartRule = {"AEDT", First, Sun, Oct, 2, 3600}; // Australia Eastern Daylight time = UTC/GMT +11 hours
-//struct dstRule EndRule = {"AEST", First, Sun, Apr, 2, 0};      // Australia Eastern Standard time = UTC/GMT +10 hour
-
-// Uncomment for 24 Hour style clock
-//#define STYLE_24HR
-
-//#define NTP_SERVERS "0.au.pool.ntp.org", "1.au.pool.ntp.org", "2.au.pool.ntp.org"
-
-// Wunderground Settings
-//const boolean IS_METRIC = true;
-//const String WUNDERGRROUND_API_KEY = "<WUNDERGROUND KEY HERE>";
-//const String WUNDERGRROUND_LANGUAGE = "EN";
-//const String WUNDERGROUND_COUNTRY = "AU";
-//const String WUNDERGROUND_CITY = "Sydney";
-//#endif
 
 //Thingspeak Settings
 //const String THINGSPEAK_CHANNEL_ID = "67284";
