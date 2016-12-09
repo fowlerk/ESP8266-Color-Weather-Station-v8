@@ -31,7 +31,7 @@ The timing for how long the rotating displays appear before moving to the next a
 
 The original code by squix78 utilized the WiFiManager library by tzapu to set WiFi credentials via a configuration portal and connect to the AP.  I've extended this to add configuration parameters for the WeatherUnderground settings, as well as the city selected for the time-zone / daylight savings time rules.  Which brings me to DST...I've borrowed the same routine that neptune used in his enhancements to the Weather Station that sets DST rules based on the locale specified and updates the time via NTP.
 
-*** Note:  In my haste to get these changes implemented, I only added a few time-zone city selections for the US timezones (including my own).  (Yes, go ahead and hit me up on my lack of consideration for all of you international contributors!)  It is simple to extend the code to add additional cities / DST rules by editing the function setDSTRules if you need to do so.
+*** Note:  In my haste to get these changes implemented, I only added a few time-zone city selections.  These include those for the US timezones (including my own), plus two others (Zurich and Sydney).  It is simple to extend the code to add additional cities / DST rules by editing the function setDSTRules if you need to do so.
 
 ### On-Demand Portal
 

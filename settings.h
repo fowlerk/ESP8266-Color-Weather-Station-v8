@@ -40,6 +40,21 @@ See more at http://blog.squix.ch
 char FormattedTemperature[10];
 char FormattedHumidity[10];
 
+// Double-reset detector settings (for on-demand configuration portal)...
+
+// Number of seconds after reset during which a 
+// subseqent reset will be considered a double reset.
+#define DRD_TIMEOUT 10
+
+// RTC Memory Address for the DoubleResetDetector to use
+#define DRD_ADDRESS 0
+
+// Settings for the name of the OTA host and config portal password...
+// HOSTNAME for OTA update
+#define HOSTNAME "ESP8266-OTA-"
+
+const char* configPortalPassword = "portal-pass";
+
 // -----------------------------------
 // Example Locales (uncomment only 1)
 //#define Zurich
@@ -74,10 +89,11 @@ dstRule EndRule = {"EST", First, Sun, Nov, 1, 0};       // Eastern Standard time
 
 // Wunderground Settings (default)
 boolean IS_METRIC = false;
-char WUNDERGROUND_API_KEY[18] = "<WU API key>";
+char WUNDERGROUND_API_KEY[18] = "3d577bc1ba5996cb";
 char WUNDERGROUND_LANGUAGE[4] = "EN";
 char WUNDERGROUND_COUNTRY[4] = "US";
-char WUNDERGROUND_CITY[20] = "<WU City>";
+char WUNDERGROUND_CITY[20] = "KY/40223";
+//const String WUNDERGROUND_CITY = "pws:KKYLOUIS57";    // Meadow Vale PWS
 char TZ_CITY[30] = "Louisville";
 
 //#ifdef Sydney

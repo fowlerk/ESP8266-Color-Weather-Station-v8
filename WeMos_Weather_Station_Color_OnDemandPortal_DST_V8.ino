@@ -137,23 +137,11 @@ Modified by DK Fowler ... 08-Dec-2016
 #include <simpleDSTadjust.h>
 #include "TimeZone.h"
 
-// Number of seconds after reset during which a 
-// subseqent reset will be considered a double reset.
-#define DRD_TIMEOUT 10
-
-// RTC Memory Address for the DoubleResetDetector to use
-#define DRD_ADDRESS 0
+/*********************************************************
+ * Important: see settings.h to configure your settings!!!
+ * *******************************************************/
 
 DoubleResetDetector drd(DRD_TIMEOUT, DRD_ADDRESS);
-
-// HOSTNAME for OTA update
-#define HOSTNAME "ESP8266-OTA-"
-
-const char* configPortalPassword = "portal#pass";				// Change for your own setup!
-
-/*****************************
- * Important: see settings.h to configure your settings!!!
- * ***************************/
 
 //flag for saving data
 bool shouldSaveConfig = false;
@@ -231,7 +219,6 @@ void setup() {
     WiFiManagerParameter custom_WUNDERGROUND_COUNTRY("WUcountry", "WU country", WUNDERGROUND_COUNTRY, 4, "<p>Weather Underground Country</p");
     WiFiManagerParameter custom_WUNDERGROUND_CITY("WUcity", "WU city/PWS", WUNDERGROUND_CITY, 20, "<p>Weather Underground City/PWS</p");
     WiFiManagerParameter custom_TZ_CITY("TZCity", "TZ City", TZ_CITY, 30, TimeZoneConfig);
-    //WiFiManagerParameter custom_TZ_CITY(, , TZ_CITY, 30, TimeZoneConfig);
   
   //read configuration from FS json
   Serial.println("mounting FS...");
@@ -673,6 +660,18 @@ void setDSTRules(String TZ_CITY) {
         EndRule = (dstRule) {"HST", First, Sun, Nov, 1, 0};       // Hawaiian Standard time = UTC/GMT -10 hour
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
+  } else if (TZ_CITY == "Zurich") {
+        UTC_OFFSET = +1;
+        StartRule = (dstRule) {"CEST", Last, Sun, Mar, 2, 3600}; // Central European Summer Time = UTC/GMT +2 hours
+        EndRule = (dstRule) {"CET", Last, Sun, Oct, 2, 0};       // Central European Time = UTC/GMT +1 hour
+        #define NTP_SERVERS "0.ch.pool.ntp.org", "1.ch.pool.ntp.org", "2.ch.pool.ntp.org"
+        IS_METRIC = true;
+  } else if (TZ_CITY == "Sydney") {
+        UTC_OFFSET = +10;
+        StartRule = (dstRule) {"AEDT", First, Sun, Oct, 2, 3600}; // Australia Eastern Daylight time = UTC/GMT +11 hours
+        EndRule = (dstRule) {"AEST", First, Sun, Apr, 2, 0};      // Australia Eastern Standard time = UTC/GMT +10 hour
+        #define NTP_SERVERS "0.au.pool.ntp.org", "1.au.pool.ntp.org", "2.au.pool.ntp.org"
+        IS_METRIC = true;
   } else {
         UTC_OFFSET = 0;
         StartRule = (dstRule) {"GMT", Second, Sun, Mar, 2, 0};    // GMT default
