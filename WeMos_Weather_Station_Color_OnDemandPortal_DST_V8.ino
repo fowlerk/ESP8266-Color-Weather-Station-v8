@@ -149,7 +149,7 @@ DoubleResetDetector drd(DRD_TIMEOUT, DRD_ADDRESS);
 // HOSTNAME for OTA update
 #define HOSTNAME "ESP8266-OTA-"
 
-const char* configPortalPassword = "so#clever";
+const char* configPortalPassword = "portal#pass";				// Change for your own setup!
 
 /*****************************
  * Important: see settings.h to configure your settings!!!
