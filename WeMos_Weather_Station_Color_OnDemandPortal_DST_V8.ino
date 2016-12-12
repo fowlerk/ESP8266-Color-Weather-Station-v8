@@ -621,43 +621,55 @@ void setDSTRules(String TZ_CITY) {
   if (TZ_CITY == "Boston") {
         UTC_OFFSET = -5;
         StartRule = (dstRule) {"EDT", Second, Sun, Mar, 2, 3600}; // Eastern Daylight time = UTC/GMT -4 hours
-        EndRule = (dstRule) {"EST", First, Sun, Nov, 1, 0};       // Eastern Standard time = UTC/GMT -5 hour
+        EndRule = (dstRule) {"EST", First, Sun, Nov, 1, 0};       // Eastern Standard time = UTC/GMT -5 hours
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
   } else if (TZ_CITY == "Louisville") {
         UTC_OFFSET = -5;
         StartRule = (dstRule) {"EDT", Second, Sun, Mar, 2, 3600}; // Eastern Daylight time = UTC/GMT -4 hours
-        EndRule = (dstRule) {"EST", First, Sun, Nov, 1, 0};       // Eastern Standard time = UTC/GMT -5 hour
+        EndRule = (dstRule) {"EST", First, Sun, Nov, 1, 0};       // Eastern Standard time = UTC/GMT -5 hours
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
   } else if (TZ_CITY == "Chicago") {
         UTC_OFFSET = -6;
         StartRule = (dstRule) {"CDT", Second, Sun, Mar, 2, 3600}; // Central Daylight time = UTC/GMT -5 hours
-        EndRule = (dstRule) {"CST", First, Sun, Nov, 1, 0};       // Central Standard time = UTC/GMT -6 hour
+        EndRule = (dstRule) {"CST", First, Sun, Nov, 1, 0};       // Central Standard time = UTC/GMT -6 hours
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
   } else if (TZ_CITY == "Mountain") {
         UTC_OFFSET = -7;
         StartRule = (dstRule) {"MDT", Second, Sun, Mar, 2, 3600}; // Mountain Daylight time = UTC/GMT -6 hours
-        EndRule = (dstRule) {"MST", First, Sun, Nov, 1, 0};       // Mountain Standard time = UTC/GMT -7 hour
+        EndRule = (dstRule) {"MST", First, Sun, Nov, 1, 0};       // Mountain Standard time = UTC/GMT -7 hours
+        #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
+        IS_METRIC = false;
+  } else if (TZ_CITY == "Arizona-DST") {		// Same as Mountain
+        UTC_OFFSET = -7;
+        StartRule = (dstRule) {"MDT", Second, Sun, Mar, 2, 3600}; // Mountain Daylight time = UTC/GMT -6 hours
+        EndRule = (dstRule) {"MST", First, Sun, Nov, 1, 0};		  // Mountain Standard time = UTC/GMT -7 hours
+        #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
+        IS_METRIC = false;
+  } else if (TZ_CITY == "Arizona-noDST") {		// Most of Arizona doesn't currently implement daylight saving time
+        UTC_OFFSET = -7;
+        StartRule = (dstRule) {"MST", First, Sun, Nov, 1, 0}; 	  // Mountain Standard time = UTC/GMT -7 hours
+        EndRule = (dstRule) {"MST", First, Sun, Nov, 1, 0};
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
   } else if (TZ_CITY == "Pacific") {
         UTC_OFFSET = -8;
         StartRule = (dstRule) {"PDT", Second, Sun, Mar, 2, 3600}; // Pacific Daylight time = UTC/GMT -7 hours
-        EndRule = (dstRule) {"PST", First, Sun, Nov, 1, 0};       // Pacific Standard time = UTC/GMT -8 hour
+        EndRule = (dstRule) {"PST", First, Sun, Nov, 1, 0};       // Pacific Standard time = UTC/GMT -8 hours
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
   } else if (TZ_CITY == "Alaska") {
         UTC_OFFSET = -9;
         StartRule = (dstRule) {"ADT", Second, Sun, Mar, 2, 3600}; // Alaskan Daylight time = UTC/GMT -8 hours
-        EndRule = (dstRule) {"AST", First, Sun, Nov, 1, 0};       // Alaskan Standard time = UTC/GMT -9 hour
+        EndRule = (dstRule) {"AST", First, Sun, Nov, 1, 0};       // Alaskan Standard time = UTC/GMT -9 hours
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
-  } else if (TZ_CITY == "Hawaii") {
+  } else if (TZ_CITY == "Hawaii") {								  // Hawaii doesn't currently implement daylight saving time
         UTC_OFFSET = -10;
-        StartRule = (dstRule) {"HDT", Second, Sun, Mar, 2, 3600}; // Hawaiian Daylight time = UTC/GMT -9 hours
-        EndRule = (dstRule) {"HST", First, Sun, Nov, 1, 0};       // Hawaiian Standard time = UTC/GMT -10 hour
+        StartRule = (dstRule) {"HST", First, Sun, Nov, 1, 0}; 	  // Hawaiian Standard time = UTC/GMT -10 hours
+        EndRule = (dstRule) {"HST", First, Sun, Nov, 1, 0};
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
   } else if (TZ_CITY == "Zurich") {
@@ -669,12 +681,12 @@ void setDSTRules(String TZ_CITY) {
   } else if (TZ_CITY == "Sydney") {
         UTC_OFFSET = +10;
         StartRule = (dstRule) {"AEDT", First, Sun, Oct, 2, 3600}; // Australia Eastern Daylight time = UTC/GMT +11 hours
-        EndRule = (dstRule) {"AEST", First, Sun, Apr, 2, 0};      // Australia Eastern Standard time = UTC/GMT +10 hour
+        EndRule = (dstRule) {"AEST", First, Sun, Apr, 2, 0};      // Australia Eastern Standard time = UTC/GMT +10 hours
         #define NTP_SERVERS "0.au.pool.ntp.org", "1.au.pool.ntp.org", "2.au.pool.ntp.org"
         IS_METRIC = true;
-  } else {
+  } else {						// No DST support
         UTC_OFFSET = 0;
-        StartRule = (dstRule) {"GMT", Second, Sun, Mar, 2, 0};    // GMT default
+        StartRule = (dstRule) {"GMT", First, Sun, Nov, 1, 0};    // GMT default
         EndRule = (dstRule) {"GMT", First, Sun, Nov, 1, 0};
         #define NTP_SERVERS "us.pool.ntp.org", "time.nist.gov", "pool.ntp.org"
         IS_METRIC = false;
