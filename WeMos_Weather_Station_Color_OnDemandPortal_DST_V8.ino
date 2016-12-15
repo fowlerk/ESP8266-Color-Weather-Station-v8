@@ -95,6 +95,10 @@ Modified by DK Fowler ... 08-Dec-2016
 
     Finally, corrected counts for the downloaded icons (currrent 19 specified for the weather icons, large
     and small; 23 for the moon-phase icons.)
+	
+Modified by DK Fowler ... 12/15-Dec-2016
+	Corrected errors with DST rules for Hawaii (DST not currently implemented), and Arizona (most of state 
+	does not currently implement DST).  Corrected minor display overwrite issue with "am/pm".
     
 */
 #include <FS.h>
@@ -713,15 +717,15 @@ void drawDateTime() {
   
 #ifdef STYLE_24HR
   sprintf(time_str, "%02d:%02d:%02d\n",timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
-//  tft.drawRect(36, 26, 164, 36, ILI9341_WHITE);
-  tft.fillRect(36, 26, 164, 36, ILI9341_BLACK);
+//  tft.drawRect(36, 26, 204, 36, ILI9341_WHITE);
+  tft.fillRect(36, 26, 204, 36, ILI9341_BLACK);
   ui.drawString(120, 56, time_str);
   drawSeparator(65);
 #else
   int hour = (timeinfo->tm_hour+11)%12+1;  // take care of noon and midnight
   sprintf(time_str, "%2d:%02d:%02d\n", hour, timeinfo->tm_min, timeinfo->tm_sec);
-//  tft.drawRect(36, 26, 164, 36, ILI9341_WHITE);
-  tft.fillRect(36, 26, 164, 36, ILI9341_BLACK);
+//  tft.drawRect(36, 26, 204, 36, ILI9341_WHITE);
+  tft.fillRect(36, 26, 204, 36, ILI9341_BLACK);
   ui.drawString(120, 56, time_str);
   drawSeparator(65);
 #endif
