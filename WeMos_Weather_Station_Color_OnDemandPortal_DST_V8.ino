@@ -99,6 +99,9 @@ Modified by DK Fowler ... 08-Dec-2016
 Modified by DK Fowler ... 12/15-Dec-2016
 	Corrected errors with DST rules for Hawaii (DST not currently implemented), and Arizona (most of state 
 	does not currently implement DST).  Corrected minor display overwrite issue with "am/pm".
+	
+Modified by DK Fowler ... 16-Dec-2016
+	Added Japan/Tokyo time-zone.
     
 */
 #include <FS.h>
@@ -681,6 +684,12 @@ void setDSTRules(String TZ_CITY) {
         StartRule = (dstRule) {"CEST", Last, Sun, Mar, 2, 3600}; // Central European Summer Time = UTC/GMT +2 hours
         EndRule = (dstRule) {"CET", Last, Sun, Oct, 2, 0};       // Central European Time = UTC/GMT +1 hour
         #define NTP_SERVERS "0.ch.pool.ntp.org", "1.ch.pool.ntp.org", "2.ch.pool.ntp.org"
+        IS_METRIC = true;
+  } else if (TZ_CITY == "Tokyo") {								// Japan doesn't implement daylight saving time
+		UTC_OFFSET = +9;
+		StartRule = (dstRule) {"JST", First, Sun, Nov, 1, 0}; 	// Japan Standard time = UTC/GMT +9 hours
+		EndRule = (dstRule) {"JST", First, Sun, Nov, 1, 0}; 	// NO DST
+		#define NTP_SERVERS "3.jp.pool.ntp.org", "0.jp.pool.ntp.org", "2.jp.pool.ntp.org"
         IS_METRIC = true;
   } else if (TZ_CITY == "Sydney") {
         UTC_OFFSET = +10;
