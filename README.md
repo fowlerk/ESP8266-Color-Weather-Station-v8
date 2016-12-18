@@ -11,6 +11,8 @@ When I first began experimenting with squix78's original Weather Station, I quic
 
 (*** Update 12/10/16 ***) After several requests, I've uploaded my modified Weather Underground library components.  Though I don't recommend this as a long-term solution, you can use the two files contained in the folder "WU library" to replace those in squix78's library in your Arduino-libraries installation.  I'd hesistated to upload these because I didn't want to start another branch, but this may be an interim answer for those of you that want to try my enhancements before the changes can be merged into squix78's master.  
 
+(*** Update 12/18/16 ***) My changes to the library have now been merged into the master, so this should no longer be an issue.  You should now be able to use the current version of the Weather Station library and compile my enhancement.
+
 ## Weather Underground Timers
 
 Since the free API from Weather Underground restricts the number of calls, I've modified the original code to implement a series of timers that control various portions of the data updates.  The current weather data and time are updated every 10 minutes by default.  The forecast data (9-days displayed in this version) is updated every 2 hours by default.  The astronomy data (for moon-phase) is updated twice per day by default.  All of these timers can easily be changed to your own preferences in the settings.h file.
