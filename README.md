@@ -15,7 +15,7 @@ When I first began experimenting with squix78's original Weather Station, I quic
 
 (*** Update 12/23/16 ***) New version available with significant additions to support display of weather alerts.  An indicator is displayed in a "panel" to the left of the date/time on the display if any active alerts exist for your selected Weather Underground city / PWS.  These alerts are described in detail on the Weather Underground site, and are invoked with the "/alerts" API call.  Note that these are only generally supported in the US and EU (through Meteoalarm) through this API.
 
-The color of the indicator is set based on the severity of the alert (red for warning-level; yellow for watch-level; and cyan for general advisories / special weather statements).  In addition to the indicator panel, specific panels are displayed for each active alert, including start and expiration date/time, and details of the text of each alert (up to 512 characters, the current restriction of the JSON parsing library).  The indicator panel will show up to 6 concurrent alerts / advisories.
+The color of the indicator is set based on the severity of the alert (red for warning-level; yellow for watch-level; and cyan for general advisories / special weather statements).  In addition to the indicator panel, specific panels are displayed for each active alert, including start and expiration date/time, and details of the text of each alert (up to 512 characters, the current restriction of the JSON parsing library).  The indicator panel will show up to 6 concurrent alerts / advisories.  Please note that though the default update frequency for alerts is every 5 minutes (changeable), this feature should in no way be construed to be a replacement for a weather-alert radio, as in the event of severe weather warnings (such as tornado warnings), weather alert radios are activated on a "push" basis, whereas the alert display feature here is a "pull" API call (that may or may not succeed).  Though this may be obvious to most, I mention it for those where it may not be obvious.  It is useful as a general indicator, not as a safety feature!
 
 For Meteoalarm (EU), an attribution panel is also displayed as required for the use of these alarms in the terms of use.
 
@@ -25,13 +25,15 @@ One other minor display bug on the sun/moon rise/setting times has been addresse
 
 Finally, I've corrected a bug in the handling of the metric flag that caused several display elements to not be correctly shown in metric even when specified by setting the locale (time zone city) on the configuration portal.
 
-I have uploaded the new version to the repository in the "Weather Alerts v9" folder for now.  This will likely replace my original version on the repository at some point in the near future.
+I have uploaded the new version to the repository in the "Weather Alerts v9" folder for now.  This will likely replace my original version on the repository at some point in the near future.  New screenshot images have been added to the Images folder to show some of the latest enhancements.
 
 ## Weather Underground Timers
 
 Since the free API from Weather Underground restricts the number of calls, I've modified the original code to implement a series of timers that control various portions of the data updates.  The current weather data and time are updated every 10 minutes by default.  The forecast data (9-days displayed in this version) is updated every 2 hours by default.  The astronomy data (for moon-phase) is updated twice per day by default.  All of these timers can easily be changed to your own preferences in the settings.h file.
 
 (*** Update 12/23/16 ***) I've now moved the clock update setting to a variable on the settings.h header file to make it easier to locate / change if desired.
+
+Note that I have carefully implemented the default timer frequency for updates to stay within the Weather Underground limit on (free) API calls to their service.  Though you can certainly change these, keep this restriction in mind or you may exceed the limit.  Currently, using the default update timers, the total calls / day are as follows:  (current observations every 10 minutes * 24 hours = (6 * 24), or 144) + (10-day forecasts every 2 hours, or 12) + (astronomy data twice each day, or 2) + (weather alerts updates every 5 minutes = 12 * 24 hours = (12 * 24), or 288) = 446 API calls daily.
 
 ## The Display
 
