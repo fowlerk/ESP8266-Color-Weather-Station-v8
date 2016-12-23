@@ -25,6 +25,8 @@ One other minor display bug on the sun/moon rise/setting times has been addresse
 
 Finally, I've corrected a bug in the handling of the metric flag that caused several display elements to not be correctly shown in metric even when specified by setting the locale (time zone city) on the configuration portal.
 
+I have uploaded the new version to the repository in the "Weather Alerts v9" folder for now.  This will likely replace my original version on the repository at some point in the near future.
+
 ## Weather Underground Timers
 
 Since the free API from Weather Underground restricts the number of calls, I've modified the original code to implement a series of timers that control various portions of the data updates.  The current weather data and time are updated every 10 minutes by default.  The forecast data (9-days displayed in this version) is updated every 2 hours by default.  The astronomy data (for moon-phase) is updated twice per day by default.  All of these timers can easily be changed to your own preferences in the settings.h file.
