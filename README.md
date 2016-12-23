@@ -13,9 +13,23 @@ When I first began experimenting with squix78's original Weather Station, I quic
 
 (*** Update 12/18/16 ***) My changes to the library have now been merged into the master, so this should no longer be an issue.  You should now be able to use the current version of the Weather Station library and compile my enhancement.
 
+(*** Update 12/23/16 ***) New version available with significant additions to support display of weather alerts.  An indicator is displayed in a "panel" to the left of the date/time on the display if any active alerts exist for your selected Weather Underground city / PWS.  These alerts are described in detail on the Weather Underground site, and are invoked with the "/alerts" API call.  Note that these are only generally supported in the US and EU (through Meteoalarm) through this API.
+
+The color of the indicator is set based on the severity of the alert (red for warning-level; yellow for watch-level; and cyan for general advisories / special weather statements).  In addition to the indicator panel, specific panels are displayed for each active alert, including start and expiration date/time, and details of the text of each alert (up to 512 characters, the current restriction of the JSON parsing library).
+
+For Meteoalarm (EU), an attribution panel is also displayed as required for the use of these alarms in the terms of use.
+
+Further enhancements include the display of PoP (probability of precipitation) for each day of the extended forecast below and to the right of the forecast icon.
+
+One other minor display bug on the sun/moon rise/setting times has been addressed in the Weather Underground library.  Previously, "00"'s were displayed as blanks; these should now be correctly formatted.
+
+Finally, I've corrected a bug in the handling of the metric flag that caused several display elements to not be correctly shown in metric even when specified by setting the locale (time zone city) on the configuration portal.
+
 ## Weather Underground Timers
 
 Since the free API from Weather Underground restricts the number of calls, I've modified the original code to implement a series of timers that control various portions of the data updates.  The current weather data and time are updated every 10 minutes by default.  The forecast data (9-days displayed in this version) is updated every 2 hours by default.  The astronomy data (for moon-phase) is updated twice per day by default.  All of these timers can easily be changed to your own preferences in the settings.h file.
+
+(*** Update 12/23/16 ***) I've now moved the clock update setting to a variable on the settings.h header file to make it easier to locate / change if desired.
 
 ## The Display
 
@@ -30,6 +44,8 @@ The mid-panel rotates through 9-days of forecast information (predicted weather 
 The bottom-panel rotates through several panels, including the original panel by squix78 that shows the sun/moon rise/setting times and the current moon-phase icon.  I've added a detailed "current conditions" panel, showing humidity, windspeed/direction, precipitation since midnight, moon-phase (textual), barometric pressure, and UV index.  This panel also shows the date/time of the last update to this data.  Additional panels show the text forecast for each of the subsequent 12-hour forecast periods for the next 36 hours (including the current period).
 
 The timing for how long the rotating displays appear before moving to the next are controlled by tickers (timers) and can easily be adjusted to your liking.  Also, adding additional displays to either of these panels is simply a matter of coding the display routine, changing the parameters for "...maxPanels" for either the mid/bot panels in setting.h, and extending the Switch statement in the main routine that calls the new display.  (See the existing code for a starting point.)
+
+(*** Update 12/23/16 ***) See information above on new additions for weather alerts and PoP (probability of precipitation).
 
 ## WiFiManager
 
@@ -59,7 +75,6 @@ I also spent a considerable amount of time trying to implement a web-page pulldo
 
 I've noticed one additional remaining bug which I've not yet addressed.  It seems that if the moon-rise/set time is 0:00, only the ":" is displayed and nothing else.  The best place to correct this is probably in the Weather Station library itself instead of my code.
 
-
+(*** Update 12/23/16 ***) I think this display bug should be squashed now.
 
  
-
