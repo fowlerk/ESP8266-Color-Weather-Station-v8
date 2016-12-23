@@ -15,7 +15,7 @@ When I first began experimenting with squix78's original Weather Station, I quic
 
 (*** Update 12/23/16 ***) New version available with significant additions to support display of weather alerts.  An indicator is displayed in a "panel" to the left of the date/time on the display if any active alerts exist for your selected Weather Underground city / PWS.  These alerts are described in detail on the Weather Underground site, and are invoked with the "/alerts" API call.  Note that these are only generally supported in the US and EU (through Meteoalarm) through this API.
 
-The color of the indicator is set based on the severity of the alert (red for warning-level; yellow for watch-level; and cyan for general advisories / special weather statements).  In addition to the indicator panel, specific panels are displayed for each active alert, including start and expiration date/time, and details of the text of each alert (up to 512 characters, the current restriction of the JSON parsing library).
+The color of the indicator is set based on the severity of the alert (red for warning-level; yellow for watch-level; and cyan for general advisories / special weather statements).  In addition to the indicator panel, specific panels are displayed for each active alert, including start and expiration date/time, and details of the text of each alert (up to 512 characters, the current restriction of the JSON parsing library).  The indicator panel will show up to 6 concurrent alerts / advisories.
 
 For Meteoalarm (EU), an attribution panel is also displayed as required for the use of these alarms in the terms of use.
 
