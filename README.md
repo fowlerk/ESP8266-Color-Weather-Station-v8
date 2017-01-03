@@ -27,6 +27,10 @@ Finally, I've corrected a bug in the handling of the metric flag that caused sev
 
 I have uploaded the new version to the repository in the "Weather Alerts v9" folder for now.  This will likely replace my original version on the repository at some point in the near future.  New screenshot images have been added to the Images folder to show some of the latest enhancements.
 
+(*** Update 01/03/17 ***) While the merging of my recent changes to the Weather Underground library to the main branch are pending, I have updated these library components (under the "WU library" folder) with the changes.  You can download these two files and replace those in your existing library folder if you want to compile and test v9 with the weather alerts; these should be backwardly compatible, that is, you should be able to compile any older weather display versions that utilize this library as I did not remove (or intentionally change!) any prior functionality.
+
+I've also updated the main code to temporarily correct one additional (minor) bug I ran across.  Apparently a weather icon for the condition "chance of thunderstorms", or "chancetstorms" was omitted from the original icon set squix78 provided.  I noticed that a weather icon was not displayed when this condition was forecast.  As a quick fix for this, I modified the code to check for this condition and if detected, replace it with the icon for "thunderstorms"; there are only trivial differences between the two icons.  At some point when I get time to figure out how to create new icons I will try a more appropriate permanent fix.
+
 ## Weather Underground Timers
 
 Since the free API from Weather Underground restricts the number of calls, I've modified the original code to implement a series of timers that control various portions of the data updates.  The current weather data and time are updated every 10 minutes by default.  The forecast data (9-days displayed in this version) is updated every 2 hours by default.  The astronomy data (for moon-phase) is updated twice per day by default.  All of these timers can easily be changed to your own preferences in the settings.h file.

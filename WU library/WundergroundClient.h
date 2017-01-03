@@ -28,7 +28,10 @@ See more at http://blog.squix.ch
 #include <JsonListener.h>
 #include <JsonStreamingParser.h>
 
-#define MAX_FORECAST_PERIODS 20
+#define MAX_FORECAST_PERIODS 20  // Changed from 7 to 12 to support 6 day / 2 screen forecast (Neptune)
+								 // Changed to 20 to support max 10-day forecast returned from 'forecast10day' API (fowlerk)
+
+#define MAX_WEATHER_ALERTS 6  	 // The maximum number of concurrent weather alerts supported by the library
 
 class WundergroundClient: public JsonListener {
   private:
@@ -40,69 +43,94 @@ class WundergroundClient: public JsonListener {
     String date = "-";
     boolean isMetric = true;
     String currentTemp;
-	// JJG added ... ////////////////////////////////// define returns /////////////////////////////////
-	String moonPctIlum;  // not used
-	String moonAge;      // make this a long?
-	String moonPhase;
-	String sunriseTime;
-	String sunsetTime;	
-	String moonriseTime;
-	String moonsetTime;	
-	String windSpeed;
-	String windDir;
-	// end JJG add ////////////////////////////////////////////////////////////////////////////////////	
+    // JJG added ... ////////////////////////////////// define returns /////////////////////////////////
+    String moonPctIlum;  // not used
+    String moonAge;      // make this a long?
+    String moonPhase;
+    String sunriseTime;
+    String sunsetTime;
+    String moonriseTime;
+    String moonsetTime;
+    String windSpeed;
+    String windDir;
+    // end JJG add ////////////////////////////////////////////////////////////////////////////////////
     String weatherIcon;
     String weatherText;
     String humidity;
     String pressure;
+    String dewPoint;
     String precipitationToday;
-	// DKF added...
+	// fowlerk added...
 	String feelslike;
 	String UV;
-	String observationTime;					// DKF add, 04-Dec-2016
-	// end DKF add
+	String observationTime;					// fowlerk add, 04-Dec-2016
+	// end fowlerk add
+	
     void doUpdate(String url);
 
     // forecast
     boolean isForecast = false;
-    boolean isSimpleForecast = false;		// true;  DKF
-	boolean isCurrentObservation = false;	// Added by DKF
+    boolean isSimpleForecast = false;		// true;  fowlerk
+	boolean isCurrentObservation = false;	// Added by fowlerk
+	boolean isAlerts = false;				// Added by fowlerk
+	boolean isAlertUS = false;				// Added by fowlerk
+	boolean isAlertEU = false;				// Added by fowlerk
     int currentForecastPeriod;
     String forecastIcon [MAX_FORECAST_PERIODS];
     String forecastTitle [MAX_FORECAST_PERIODS];
     String forecastLowTemp [MAX_FORECAST_PERIODS];
     String forecastHighTemp [MAX_FORECAST_PERIODS];
-	// DKF added...
+	// fowlerk added...
 	String forecastDay [MAX_FORECAST_PERIODS/2];
 	String forecastMonth [MAX_FORECAST_PERIODS/2];
 	String forecastText [MAX_FORECAST_PERIODS];
-	// end DKF add
+	String PoP [MAX_FORECAST_PERIODS];
+	// Active alerts...added 18-Dec-2016
+	String activeAlerts [MAX_WEATHER_ALERTS];			   // For a max of 6 currently-active alerts
+	String activeAlertsMessage [MAX_WEATHER_ALERTS];	   // Alert full-text message
+	bool   activeAlertsMessageTrunc [MAX_WEATHER_ALERTS];  // Alert full-text message truncation flag
+	String activeAlertsText [MAX_WEATHER_ALERTS];		   // Alerts description text
+	String activeAlertsStart [MAX_WEATHER_ALERTS];		   // Start of alert date/time
+	String activeAlertsEnd [MAX_WEATHER_ALERTS];		   // Expiration of alert date/time
+	String activeAlertsPhenomena [MAX_WEATHER_ALERTS];	   // Alert phenomena code
+	String activeAlertsSignificance [MAX_WEATHER_ALERTS];  // Alert significance code
+	String activeAlertsAttribution [MAX_WEATHER_ALERTS];   // Alert significance code
+	int activeAlertsCnt;				   				   // Number of active alerts
+	int currentAlert;					   				   // For indexing the current active alert
+	// end fowlerk add
 
   public:
     WundergroundClient(boolean isMetric);
     void updateConditions(String apiKey, String language, String country, String city);
+    void updateConditions(String apiKey, String language, String zmwCode);
     void updateForecast(String apiKey, String language, String country, String city);
-	void updateAstronomy(String apiKey, String language, String country, String city); // JJG added
+    void updateAstronomy(String apiKey, String language, String country, String city);
+	void updateAlerts(String apiKey, String language, String country, String city);		// Added by fowlerk, 18-Dec-2016
+	void initMetric(boolean isMetric);			// Added by fowlerk, 12/22/16, as an option to change metric setting other than at instantiation
+	
+    // JJG added
     String getHours();
     String getMinutes();
     String getSeconds();
     String getDate();
-	// JJG added ... ///////////////////function name to string ////////////////////////////
-	String getMoonPctIlum();
-	String getMoonAge();
-	String getMoonPhase();
-	String getSunriseTime();
-	String getSunsetTime();
-	String getMoonriseTime();
-	String getMoonsetTime();
-	String getWindSpeed();
-	String getWindDir();
-	// end JJG add ///////////////////////////////////////////////////////////////////////	
+    // JJG added ... ///////////////////function name to string ////////////////////////////
+    String getMoonPctIlum();
+    String getMoonAge();
+    String getMoonPhase();
+    String getSunriseTime();
+    String getSunsetTime();
+    String getMoonriseTime();
+    String getMoonsetTime();
+    String getWindSpeed();
+    String getWindDir();
+    // end JJG add ///////////////////////////////////////////////////////////////////////
     long getCurrentEpoch();
 
     String getCurrentTemp();
 
     String getTodayIcon();
+
+    String getTodayIconText();
 
     String getMeteoconIcon(String iconText);
 
@@ -112,15 +140,16 @@ class WundergroundClient: public JsonListener {
 
     String getPressure();
 
+    String getDewPoint();
+
     String getPrecipitationToday();
-	
-	// DKF added...
+	// fowlerk added...
 	String getFeelsLike();
 	
 	String getUV();
 	
-	String getObservationTime();			// DKF add, 04-Dec-2016
-	// end DKF add
+	String getObservationTime();			// fowlerk add, 04-Dec-2016
+	// end fowlerk add
 
     String getForecastIcon(int period);
 
@@ -129,15 +158,36 @@ class WundergroundClient: public JsonListener {
     String getForecastLowTemp(int period);
 
     String getForecastHighTemp(int period);
-	
-	// DKF added...
+	// fowlerk added...
 	String getForecastDay(int period);
 	
 	String getForecastMonth(int period);
 	
 	String getForecastText(int period);
 	
-	// end DKF add
+	String getPoP(int period);
+	
+	int getActiveAlertsCnt();
+	
+	String getActiveAlerts(int alertIndex);
+	
+	String getActiveAlertsText(int alertIndex);
+	
+	String getActiveAlertsMessage(int alertIndex);
+
+	bool getActiveAlertsMessageTrunc(int alertIndex);
+	
+	String getActiveAlertsStart(int alertIndex);
+	
+	String getActiveAlertsEnd(int alertIndex);
+	
+	String getActiveAlertsPhenomena(int alertIndex);
+	
+	String getActiveAlertsSignificance(int alertIndex);
+
+	String getActiveAlertsAttribution(int alertIndex);
+	
+	// end fowlerk add
 
     virtual void whitespace(char c);
 
