@@ -123,7 +123,11 @@ Modified by DK Fowler ... 19-22-Dec-2016
   additional processing that may need to be performed as a result of multiple display panels).
 
   Added probability of precipitation (PoP) to both WU client library and to the display of the forecast panels.
-   
+
+Modified by DK Fowler ... 02-Jan-2017
+  Temporarily corrected minor bug with missing icon for "chancetstorms".  Added code to check for this condition and
+  replace the icon with the one for "tstorms" as a temporary workaround until the correct icon is loaded.
+  
 */
 #include <FS.h>
 #include <Arduino.h>
@@ -436,7 +440,7 @@ void setup() {
   downloadResources();
 
 //  Debug alerts...
-//  strcpy(TZ_CITY, "Zurich");
+//  strcpy(TZ_CITY, "Mountain");
 //  strcpy(WUNDERGROUND_CITY,"pws:KNDELLEN3");  // for testing weather alerts processing
 //  strcpy(WUNDERGROUND_COUNTRY,"NO");
 //  strcpy(WUNDERGROUND_CITY,"Svene");          // for testing weather alerts processing
@@ -1002,6 +1006,8 @@ void drawForecastDetail(uint16_t x, uint16_t y, uint8_t dayIndex) {
   ui.drawString(x + 25, y + 14, wunderground.getForecastLowTemp(dayIndex) + "|" + wunderground.getForecastHighTemp(dayIndex));
   
   String weatherIcon = getMeteoconIcon(wunderground.getForecastIcon(dayIndex));
+  Serial.print("*** Forecast icon[day]:  "); Serial.print(weatherIcon); Serial.print("["); Serial.print(dayIndex); Serial.println("] ***");
+  if (weatherIcon == "chancetstorms") weatherIcon = "tstorms";      // Temporary fix for missing "chancetstorms" mini .bmp
   ui.drawBmp("/mini/" + weatherIcon + ".bmp", x, y + 15);
   // overlay probability of precipitation
   String PoP = wunderground.getPoP(dayIndex) + "%";
