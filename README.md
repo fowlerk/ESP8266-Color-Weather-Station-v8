@@ -1,5 +1,4 @@
-
-##Enhanced ESP8266 Color Weather Station (based on original by Daniel Eichorn (squix78) )
+##  Enhanced ESP8266 Color Weather Station (based on original by Daniel Eichorn (squix78) )
 
 This project is a series of enhancements made to the original color weather station for the ESP8266 created by Daniel Eichorn, with contributions by several others.  Though the original display layout came from squix78, I've made substantial changes to add additional information.
 
@@ -12,14 +11,23 @@ This version of the project was written specifically for the WeMos Mini D1 with 
 After several requests, I have added a summary of the contributed libraries with links below to make it easier to find and include these.  Most all of these come from the original examples on squix's site, but I admit that the list has become somewhat long and it took me some time to find all of these originally.
 
 <FS.h>					Part of ESP8266 core, SPIFFS filesystem support
+
 <Adafruit_GFX.h>   		Adafruit's core graphics library at <https://github.com/adafruit/Adafruit-GFX-Library>
+
 <Adafruit_ILI9341.h> 	Adafruit's ILI9341 LCD hardware-specific library at <https://github.com/adafruit/Adafruit_ILI9341>
+
 <WiFiManager.h>			WiFi Manager library by Tzapu at <https://github.com/tzapu/WiFiManager>
+
 <ArduinoJson.h>         JSON library by Bblanchon at <https://github.com/bblanchon/ArduinoJson>
+
 <JsonListener.h>		JSON streaming parser by Squix78 at <https://github.com/squix78/json-streaming-parser>
+
 <WundergroundClient.h>	Weather Underground client library by Squix78 at <https://github.com/squix78/esp8266-weather-station>
+
 <DoubleResetDetector.h> ESP8266 double-reset detector by Datacute at <https://github.com/datacute/DoubleResetDetector>
+
 <simpleDSTadjust.h>		Daylight-savings time adjustment by Neptune at <https://github.com/neptune2/simpleDSTadjust>
+
 "TimeZone.h"			Time zone conversion library by JChristensen at <https://github.com/JChristensen/Timezone>
 
 (Note that though I included the SPIFFS library in the list above, I elected not to document all of the other core libraries.)
