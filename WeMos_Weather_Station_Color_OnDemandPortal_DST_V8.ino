@@ -95,14 +95,14 @@ Modified by DK Fowler ... 08-Dec-2016
 
     Finally, corrected counts for the downloaded icons (currrent 19 specified for the weather icons, large
     and small; 23 for the moon-phase icons.)
-	
+ 	
 Modified by DK Fowler ... 12/15-Dec-2016
 	Corrected errors with DST rules for Hawaii (DST not currently implemented), and Arizona (most of state 
 	does not currently implement DST).  Corrected minor display overwrite issue with "am/pm".
 	
 Modified by DK Fowler ... 16-Dec-2016
 	Added Japan/Tokyo time-zone.
-    
+   
 */
 #include <FS.h>
 #include <Arduino.h>
@@ -195,9 +195,9 @@ void updateAstronomyData();
 void updateMidPanel();
 void updateBotPanel();
 void drawProgress(uint8_t percentage, String text);
-void drawTime();
+void drawDateTime();
 void drawCurrentWeather();
-void drawCurrentObservations(int16_t x, int16_t y);
+void drawCurrentObservations();
 void drawForecast();
 void drawForecast2();
 void drawForecast3();
