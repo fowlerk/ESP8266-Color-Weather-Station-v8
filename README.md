@@ -5,6 +5,25 @@ This project is a series of enhancements made to the original color weather stat
 
 This version of the project was written specifically for the WeMos Mini D1 with the 2.2" color LCD display based on the ILI9341 controller that squix78 used.
 
+##  Contributed Libraries (and links)
+
+(*** Added 03/16/17 ***)
+
+After several requests, I have added a summary of the contributed libraries with links below to make it easier to find and include these.  Most all of these come from the original examples on squix's site, but I admit that the list has become somewhat long and it took me some time to find all of these originally.
+
+<FS.h>					Part of ESP8266 core, SPIFFS filesystem support
+<Adafruit_GFX.h>   		Adafruit's core graphics library at <https://github.com/adafruit/Adafruit-GFX-Library>
+<Adafruit_ILI9341.h> 	Adafruit's ILI9341 LCD hardware-specific library at <https://github.com/adafruit/Adafruit_ILI9341>
+<WiFiManager.h>			WiFi Manager library by Tzapu at <https://github.com/tzapu/WiFiManager>
+<ArduinoJson.h>         JSON library by Bblanchon at <https://github.com/bblanchon/ArduinoJson>
+<JsonListener.h>		JSON streaming parser by Squix78 at <https://github.com/squix78/json-streaming-parser>
+<WundergroundClient.h>	Weather Underground client library by Squix78 at <https://github.com/squix78/esp8266-weather-station>
+<DoubleResetDetector.h> ESP8266 double-reset detector by Datacute at <https://github.com/datacute/DoubleResetDetector>
+<simpleDSTadjust.h>		Daylight-savings time adjustment by Neptune at <https://github.com/neptune2/simpleDSTadjust>
+"TimeZone.h"			Time zone conversion library by JChristensen at <https://github.com/JChristensen/Timezone>
+
+(Note that though I included the SPIFFS library in the list above, I elected not to document all of the other core libraries.)
+
 ##  Weather Station Library
 
 When I first began experimenting with squix78's original Weather Station, I quickly found that I wanted to add additional weather elements that were not in the existing library.  So, I dug through the existing code and found it quite easy to extend this to add the data elements I wanted.  So, fast-forward a few months and my modified library now contains a number of elements that may/may not be in the original.  Ideally these changes need to be merged back into the original, but I'm not quite sure the best way to go about this.  Some of the same elements have been added during the time I've been working on this version, but if you find you get errors in trying to use my enhanced version, I can either provide my enhancements (provided squix78 is okay with this of course), or I'll figure out how to get these merged into the original somehow.  Even if you elect to not use these additional elements, there is a lot of additional enhancements provided here that others may find useful.
