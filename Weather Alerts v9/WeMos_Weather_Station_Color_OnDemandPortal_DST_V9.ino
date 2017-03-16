@@ -127,7 +127,10 @@ Modified by DK Fowler ... 19-22-Dec-2016
 Modified by DK Fowler ... 02-Jan-2017
   Temporarily corrected minor bug with missing icon for "chancetstorms".  Added code to check for this condition and
   replace the icon with the one for "tstorms" as a temporary workaround until the correct icon is loaded.
-  
+
+Modified by DK Fowler ... -5-Jan-2017
+  Minor tweak to the last observation date/time to prevent it from being partially truncated at bottom of the screen.
+    
 */
 #include <FS.h>
 #include <Arduino.h>
@@ -227,7 +230,7 @@ void updateAlertsData();
 void updateMidPanel();
 void updateBotPanel();
 void drawProgress(uint8_t percentage, String text);
-void drawTime();
+void drawDateTime();
 void drawCurrentWeather();
 void drawCurrentObservations();
 void drawAlerts();
@@ -952,7 +955,7 @@ void drawCurrentObservations () {
   tft.setFont(&Droid_Sans_10);
   ui.setTextAlignment(CENTER);
   temp = temp.substring(5);
-  ui.drawString(120, 315, temp);
+  ui.drawString(120, 312, temp);
 
 }
 
