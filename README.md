@@ -25,6 +25,24 @@ Library Referenced | Description | Link
 
 (Note that though I included the SPIFFS library in the list above, I elected not to document all of the other core libraries.)
 
+## Wiring
+
+| ILI9341   | NodeMCU | WeMos D1 Mini | ESP8266 Pin
+| --------- |---------|---------------|-------------
+| SDO/MISO  | -     | -   | -
+| LED       | 3V3   | 3V3 | 3V3
+| SCK       | D5    | D5  | GPIO14
+| SDI/MOSI  | D7    | D7  | GPIO13
+| DC/RS     | D4    | D4  | GPIO2
+| RESET     | RST   | RST | RST
+| CS        | D2    | D2  | GPIO4
+| GND       | GND   | GND | GND
+| VCC       | 3V3   | 3V3 | 3V3
+
+** Note that I have not tested the NodeMCU pin references, but from what I understand these are the same as for the WeMos D1 mini.  Verify and test these at your own risk!**
+
+Also note that I have had occasional issues with my LCD display freezing or going "all white"; this happens especially when I plug another device into the same outlet, so it appears to be related to the VCC supplied (spike or drop?).  I have added a 220uF capacitor across the supply to the LCD and this seems to have helped, but still get these issues occasionally.  I suspect that supplying power from the WeMos may not be adequate at times, but haven't gotten to the bottom of this yet.  May be just my display ??
+
 ##  Weather Station Library
 
 When I first began experimenting with squix78's original Weather Station, I quickly found that I wanted to add additional weather elements that were not in the existing library.  So, I dug through the existing code and found it quite easy to extend this to add the data elements I wanted.  So, fast-forward a few months and my modified library now contains a number of elements that may/may not be in the original.  Ideally these changes need to be merged back into the original, but I'm not quite sure the best way to go about this.  Some of the same elements have been added during the time I've been working on this version, but if you find you get errors in trying to use my enhanced version, I can either provide my enhancements (provided squix78 is okay with this of course), or I'll figure out how to get these merged into the original somehow.  Even if you elect to not use these additional elements, there is a lot of additional enhancements provided here that others may find useful.
