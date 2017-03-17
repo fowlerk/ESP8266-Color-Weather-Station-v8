@@ -27,8 +27,10 @@ Library Referenced | Description | Link
 
 ## Wiring
 
+(*** Added 03/17/17 ***)
+
 | ILI9341   | NodeMCU | WeMos D1 Mini | ESP8266 Pin
-| --------- |---------|---------------|-------------
+| --------- |:---------:|:---------------:|:-------------:
 | SDO/MISO  | -     | -   | -
 | LED       | 3V3   | 3V3 | 3V3
 | SCK       | D5    | D5  | GPIO14
@@ -39,7 +41,7 @@ Library Referenced | Description | Link
 | GND       | GND   | GND | GND
 | VCC       | 3V3   | 3V3 | 3V3
 
-** Note that I have not tested the NodeMCU pin references, but from what I understand these are the same as for the WeMos D1 mini.  Verify and test these at your own risk!**
+**Note that I have not tested the NodeMCU pin references, but from what I understand these are the same as for the WeMos D1 mini.  Verify and test these at your own risk!**
 
 Also note that I have had occasional issues with my LCD display freezing or going "all white"; this happens especially when I plug another device into the same outlet, so it appears to be related to the VCC supplied (spike or drop?).  I have added a 220uF capacitor across the supply to the LCD and this seems to have helped, but still get these issues occasionally.  I suspect that supplying power from the WeMos may not be adequate at times, but haven't gotten to the bottom of this yet.  May be just my display ??
 
