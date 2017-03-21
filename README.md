@@ -107,7 +107,7 @@ The original code by squix78 utilized the WiFiManager library by tzapu to set Wi
 
 This version utilizes a small library that allows bringing up the configuration portal on-demand by double-pressing the reset button on the WeMos.  This double-press must occur within 10 seconds (which is configurable and changeable in the code).  The library is by datacute (https://github.com/datacute/DoubleResetDetector).
 
-*** The configuration portal is by default password-protected using the password of "portal#pass".  Change this to your own liking.
+*** The configuration portal is by default password-protected using the password of "portal-pass".  Change this to your own liking.
 
 ## Thingspeak / DHT22 Display
 
