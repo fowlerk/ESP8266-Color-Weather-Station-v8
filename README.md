@@ -23,7 +23,7 @@ Library Referenced | Description | Link
 **<simpleDSTadjust.h>**	| Simple daylight-savings time adjustment by Neptune | <https://github.com/neptune2/simpleDSTadjust>
 **"TimeZone.h"** | Time zone conversion library by JChristensen | <https://github.com/JChristensen/Timezone>
 **"DHT.h"** | Adafruit's DHT sensor library | <https://github.com/adafruit/DHT-sensor-library>
-**<Adafruit_Sensor.h> | Adafruit's Unified Sensor library | <https://github.com/adafruit/Adafruit_Sensor>
+**<Adafruit_Sensor.h>** | Adafruit's Unified Sensor library | <https://github.com/adafruit/Adafruit_Sensor>
 
 (Note that though I included the SPIFFS library in the list above, I elected not to document all of the other core libraries.)  Also note that though I do not use the DHT sensor in my setup (nor Thinkspeak as in the original code), I've maintained the bulk of this code in order to make it easier for those that elect to use it.  As a result, the Adafruit libraries for the DHT sensors and their Unified Sensor library are required for compilation.
 
