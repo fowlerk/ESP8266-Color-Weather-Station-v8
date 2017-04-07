@@ -84,16 +84,14 @@ void GfxUi::drawBmp(String filename, uint8_t x, uint16_t y) {
 
   File     bmpFile;
   int      bmpWidth, bmpHeight;   // W+H in pixels
-  int	   bmpCompressed;		  // DKF added, 11/18/16
   uint8_t  bmpDepth;              // Bit depth (currently must be 24)
-  int	   bmpSign;				  // DKF added, 11/18/16
   uint32_t bmpImageoffset;        // Start of image data in file
   uint32_t rowSize;               // Not always = bmpWidth; may have padding
   uint8_t  sdbuffer[3*BUFFPIXEL]; // pixel buffer (R+G+B per pixel)
   uint8_t  buffidx = sizeof(sdbuffer); // Current position in sdbuffer
   boolean  goodBmp = false;       // Set to true on valid header parse
   boolean  flip    = true;        // BMP is stored bottom-to-top
-  int      w, h, row, col;
+  int      w, h, row, col, x2, y2, bx1, by1;
   uint8_t  r, g, b;
   uint32_t pos = 0, startTime = millis();
 
@@ -111,10 +109,7 @@ void GfxUi::drawBmp(String filename, uint8_t x, uint16_t y) {
   }
 
   // Parse BMP header
-  bmpSign = read16(bmpFile);		// DKF added, 11/18/16
-  Serial.print(F("BMP signature:  ")); Serial.println(bmpSign, HEX);
-//  if(read16(bmpFile) == 0x4D42) { // BMP signature
-  if(bmpSign == 0x4D42) { // BMP signature	// DKF modified, 11/18/16
+  if(read16(bmpFile) == 0x4D42) { // BMP signature
     Serial.print(F("File size: ")); Serial.println(read32(bmpFile));
     (void)read32(bmpFile); // Read & ignore creator bytes
     bmpImageoffset = read32(bmpFile); // Start of image data
@@ -126,9 +121,7 @@ void GfxUi::drawBmp(String filename, uint8_t x, uint16_t y) {
     if(read16(bmpFile) == 1) { // # planes -- must be '1'
       bmpDepth = read16(bmpFile); // bits per pixel
       Serial.print(F("Bit Depth: ")); Serial.println(bmpDepth);
-	  bmpCompressed = read32(bmpFile);		// DKF add, 11/18/16
-//      if((bmpDepth == 24) && (read32(bmpFile) == 0)) { // 0 = uncompressed
-      if((bmpDepth == 24) && (bmpCompressed == 0)) { // 0 = uncompressed; DKF modified, 11/18/16
+      if((bmpDepth == 24) && (read32(bmpFile) == 0)) { // 0 = uncompressed
 
         goodBmp = true; // Supported BMP format -- proceed!
         Serial.print(F("Image size: "));
@@ -147,49 +140,69 @@ void GfxUi::drawBmp(String filename, uint8_t x, uint16_t y) {
         }
 
         // Crop area to be loaded
-        w = bmpWidth;
-        h = bmpHeight;
-        if((x+w-1) >= _tft->width())  w = _tft->width()  - x;
-        if((y+h-1) >= _tft->height()) h = _tft->height() - y;
-
-        // Set TFT address window to clipped image bounds
-        _tft->setAddrWindow(x, y, x+w-1, y+h-1);
-
-        for (row=0; row<h; row++) { // For each scanline...
-
-          // Seek to start of scan line.  It might seem labor-
-          // intensive to be doing this on every line, but this
-          // method covers a lot of gritty details like cropping
-          // and scanline padding.  Also, the seek only takes
-          // place if the file position actually needs to change
-          // (avoids a lot of cluster math in SD library).
-          if(flip) // Bitmap is stored bottom-to-top order (normal BMP)
-            pos = bmpImageoffset + (bmpHeight - 1 - row) * rowSize;
-          else     // Bitmap is stored top-to-bottom
-            pos = bmpImageoffset + row * rowSize;
-          if(bmpFile.position() != pos) { // Need seek?
-            bmpFile.seek(pos, SeekSet);
-            buffidx = sizeof(sdbuffer); // Force buffer reload
+        x2 = x + bmpWidth  - 1; // Lower-right corner
+        y2 = y + bmpHeight - 1;
+        if((x2 >= 0) && (y2 >= 0)) { // On screen?
+          w = bmpWidth; // Width/height of section to load/display
+          h = bmpHeight;
+          bx1 = by1 = 0; // UL coordinate in BMP file
+          if(x < 0) { // Clip left
+            bx1 = -x;
+            x   = 0;
+            w   = x2 + 1;
           }
+          if(y < 0) { // Clip top
+            by1 = -y;
+            y   = 0;
+            h   = y2 + 1;
+          }
+          if(x2 >= _tft->width())  w = _tft->width()  - x; // Clip right
+          if(y2 >= _tft->height()) h = _tft->height() - y; // Clip bottom
 
-          for (col=0; col<w; col++) { // For each pixel...
-            // Time to read more pixel data?
-            if (buffidx >= sizeof(sdbuffer)) { // Indeed
-              bmpFile.read(sdbuffer, sizeof(sdbuffer));
-              buffidx = 0; // Set index to beginning
+          // Set TFT address window to clipped image bounds
+          _tft->startWrite(); // Requires start/end transaction now
+          _tft->setAddrWindow(x, y, w, h);
+
+          for (row=0; row<h; row++) { // For each scanline...
+  
+            // Seek to start of scan line.  It might seem labor-
+            // intensive to be doing this on every line, but this
+            // method covers a lot of gritty details like cropping
+            // and scanline padding.  Also, the seek only takes
+            // place if the file position actually needs to change
+            // (avoids a lot of cluster math in SD library).
+            if(flip) // Bitmap is stored bottom-to-top order (normal BMP)
+              pos = bmpImageoffset + (bmpHeight - 1 - row) * rowSize;
+            else     // Bitmap is stored top-to-bottom
+              pos = bmpImageoffset + row * rowSize;
+            if(bmpFile.position() != pos) { // Need seek?
+              _tft->endWrite(); // End TFT transaction
+              bmpFile.seek(pos, SeekSet);
+              buffidx = sizeof(sdbuffer); // Force buffer reload
+              _tft->startWrite(); // Start new TFT transaction
             }
-
-            // Convert pixel from BMP to TFT format, push to display
-            b = sdbuffer[buffidx++];
-            g = sdbuffer[buffidx++];
-            r = sdbuffer[buffidx++];
-            _tft->pushColor(_tft->color565(r,g,b));
-            yield();
-          } // end pixel
-        } // end scanline
-        Serial.print(F("Loaded in "));
-        Serial.print(millis() - startTime);
-        Serial.println(" ms");
+  
+            for (col=0; col<w; col++) { // For each pixel...
+              // Time to read more pixel data?
+              if (buffidx >= sizeof(sdbuffer)) { // Indeed
+                _tft->endWrite(); // End TFT transaction
+                bmpFile.read(sdbuffer, sizeof(sdbuffer));
+                buffidx = 0; // Set index to beginning
+                _tft->startWrite(); // Start new TFT transaction
+              }
+  
+              // Convert pixel from BMP to TFT format, push to display
+              b = sdbuffer[buffidx++];
+              g = sdbuffer[buffidx++];
+              r = sdbuffer[buffidx++];
+              _tft->writePixel(_tft->color565(r,g,b));
+             yield();
+            } // end pixel
+          } // end scanline
+          Serial.print(F("Loaded in "));
+          Serial.print(millis() - startTime);
+          Serial.println(" ms");
+        } // end onscreen
       } // end goodBmp
     }
   }
