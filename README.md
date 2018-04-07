@@ -4,6 +4,9 @@ This project is a series of enhancements made to the original color weather stat
 
 This version of the project was written specifically for the WeMos Mini D1 with the 2.2" color LCD display based on the ILI9341 controller that squix78 used.
 
+**Note, 7-Apr-2018:  I have made significant changes to the code base since this initial release; check out v11d in this repository: https://github.com/fowlerk/ESP8266-Color-Weather-Station-v11d, or for a newer touchscreen version, v15 here:  https://github.com/fowlerk/ESP8266-Color-Weather-Station-Touchscreen-v15.**
+
+
 ##  Contributed Libraries (and links)
 
 (*** Added 03/16/17 ***)
